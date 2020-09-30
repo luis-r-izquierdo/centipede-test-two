@@ -177,11 +177,14 @@
 
    <p>This section explains the formal model that <b>centipede-test-two</b> implements. The information provided here should suffice to re-implement the same formal model in any sophisticated enough modelling platform.</p>
 
-   <p>Consider two populations consisting of <i class="slider">n-of-agents-in-each-pop</i> individuals each, who play a Centipede game with <i class="slider">n-of-nodes</i> decision nodes. Individuals from population 1 take the role of player 1, and individuals from the population 2 take the role of player 2.</p>
+   <h3>Populations</h3>
+   <p>In the model, there are two populations consisting of <i class="slider">n-of-agents-in-each-pop</i> individuals each, who play a Centipede game with <i class="slider">n-of-nodes</i> decision nodes. Individuals from population 1 take the role of player 1 (i.e. first movers), and individuals from the population 2 take the role of player 2 (i.e. second movers).</p>
 
+   <h3>Strategies</h3>
 
-   <p> If the number of decision nodes in Centipede is even, each individual has an associated strategy <span class="math inline">\(i \in \{1,...,\frac{\color{green}{n-of-nodes}}{2}+1\}\)</span>, where strategy <span class="math inline">\(i \leq \frac{\color{green}{n-of-nodes}}{2}\)</span> corresponds to "stop at your <span class="math inline">\(i\)</span>-th decision node, and not before", and strategy <span class="math inline">\(i = \frac{\color{green}{n-of-nodes}}{2}+1\)</span> corresponds to "do not stop". The adaptation to an even number of decision nodes is immediate.</p>
+   <p> If the number of decision nodes in Centipede is even, each individual has an associated strategy <span class="math inline">\(i \in \{1,...,\frac{\color{green}{n-of-nodes}}{2}+1\}\)</span>, where strategy <span class="math inline">\(i \leq \frac{\color{green}{n-of-nodes}}{2}\)</span> corresponds to "stop at your <span class="math inline">\(i\)</span>-th decision node, and not before", and strategy <span class="math inline">\(i = \frac{\color{green}{n-of-nodes}}{2}+1\)</span> corresponds to "do not stop". The adaptation to an even number of decision nodes is simple; in that case, agents in population 1 have one more strategy available to them than individuals in population 2.</p>
 
+   <h3>Payoffs</h3>
    <p>Let <span class="math inline">\(A_{ij}\)</span> and <span class="math inline">\(B_{ij}\)</span> represent the players' payoffs in population 1 and 2 respectively, when the player in population 1 plays strategy <span class="math inline">\(i\)</span> and the player in population 2 plays strategy <span class="math inline">\(j\)</span>. These payoff matrices <span class="math inline">\((A, B)\)</span> can be expressed concisely as <span class="math display">\[
             
             (A_{ij},B_{ij})=
@@ -192,10 +195,11 @@
 
    </p>
 
+   <h3>Sequence of events</h3>
    <p>Initially, agents are assigned a strategy at random. The model then runs in discrete time-steps called ticks. Within each tick the following sequence of events takes place:</p>
 
    <ol>
-      <li>Every agent revises her strategy with probability <i class="slider">prob-revision</i>; this probability is the same for every agent and independent between individuals.
+      <li>Every agent revises her strategy with probability <i class="slider">prob-revision</i>; this probability is the same for every agent and independent between agents.
       </li>
       <li>Each revising agent selects one strategy at random with probability <i class="slider">prob-exp</i> (for experimentation). With probability (1-<i class="slider">prob-exp</i>), the revising agent chooses a (uniformly) random alternate strategy, different from her current one, and plays 2*<i class="slider">n-of-trials</i> Centipede games: <i class="slider">n-of-trials</i> games (trials) using her current strategy and <i class="slider">n-of-trials</i> trials using the alternate one. Each of those <i class="slider">n-of-trials</i> trials is played with a newly picked random partner from the other population, without replacement while testing the same strategy.
       </li>
@@ -230,7 +234,7 @@
    <h2>PLOTS</h2>
 
    <ul>
-      <li><i class="plot">View</i>: This is the black band just below the sliders and the buttons. It shows the expected outcome of the game if it was played by every agent with every agent in the opposite population, as a bubble chart. The numbers indicate the decision node. The last terminal node (i.e. continue until the end of the game) is represented with a triangle. </li>
+      <li><i class="plot">View</i>: This is the black band just below the sliders and the buttons. It shows the distribution of outcomes of the game if it was played by every agent with every agent in the opposite population, as a bubble chart. The numbers indicate the decision node. The last terminal node (i.e. corresponding to the outcome where no player stops) is represented with a triangle. </li>
       <li><i class="plot">Expected fraction of matches for each game duration (terminal node)</i>: Time series of the expected fraction of matches for each game duration. It shows the same information as the view, but along time and as a bar chart.</li>
       <li><i class="plot">Pop. 1: Strategy distribution</i>: Time series of the distribution of strategies in population 1.</li>
       <li><i class="plot">Pop. 2: Strategy distribution</i>: Time series of the distribution of strategies in population 2.</li>
