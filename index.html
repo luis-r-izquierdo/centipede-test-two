@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+
+<HEAD>
+
+   <TITLE>Centipede, test two</TITLE>
+
+   <META http-equiv=Content-Type content="text/html; charset=windows-1252">
+
+   <META name=keywords content="Centipede, test two, best experienced payoff, cooperation, evolutionary, game theory, netLogo, agent-based modelling">
+
+   <META name=Description content="centipede-test-two is a model designed to analyse the " Test two, choose the better " rule in the centipede game.">
+
+   <META name=Authors content="Segismundo S. Izquierdo, Luis R. Izquierdo">
+
+   <STYLE type="text/css">
+      H1 {
+         BACKGROUND-COLOR: #111199;
+         color: #ffffff;
+         font-family: monospace;
+         padding: 5px;
+      }
+
+
+      H2 {
+         BACKGROUND-COLOR: #66ccff;
+         font-family: arial;
+         padding: 4px;
+      }
+
+
+      H3 {
+         BACKGROUND-COLOR: #cccccc;
+         font-family: verdana;
+         font-weight: bold;
+         padding: 4px;
+      }
+
+
+      p {
+         font-family: monospace
+      }
+
+
+      table {
+         font-family: monospace
+      }
+
+
+      ul {
+         font-family: monospace
+      }
+
+
+      ol {
+         font-family: monospace
+      }
+
+
+      i.parameter {
+         font-family: monospace;
+         color: red;
+         font-weight: bold
+      }
+
+
+      i.button {
+         font-family: monospace;
+         color: blue;
+         font-weight: bold
+      }
+
+
+      i.value {
+         font-family: monospace;
+         color: #444444;
+         font-weight: bold
+      }
+
+
+      i.slider {
+         font-family: monospace;
+         color: green;
+         font-weight: bold
+      }
+
+
+      i.monitor {
+         font-family: monospace;
+         color: #B8860B;
+         font-weight: bold
+      }
+
+
+      i.plot {
+         font-family: monospace;
+         color: brown;
+         font-weight: bold
+      }
+
+
+      img {
+         max-width: 100%;
+         height: auto;
+         width: auto\9;
+         /* ie8 */
+      }
+
+
+      code {
+         white-space: pre-wrap;
+      }
+
+      span.smallcaps {
+         font-variant: small-caps;
+      }
+
+      span.underline {
+         text-decoration: underline;
+      }
+
+      div.column {
+         display: inline-block;
+         vertical-align: top;
+         width: 50%;
+      }
+
+      div.hanging-indent {
+         margin-left: 1.5em;
+         text-indent: -1.5em;
+      }
+
+      ul.task-list {
+         list-style: none;
+      }
+
+   </style>
+
+   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+   <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+
+</HEAD>
+
+<body>
+
+   <H1>centipede-test-two</H1>
+   <h3>Segismundo S. Izquierdo &amp; Luis R. Izquierdo</h3>
+
+   <H2>HOW TO INSTALL THE MODEL</H2>
+
+   <p>To use centipede-test-two, you will have to install <a target="_blank" href="http://ccl.northwestern.edu/netlogo/">NetLogo 6.1.1 (free and open source)</a> and download <a href="centipede-test-two.nlogo.zip">the model itself</a>. Unzip the downloaded file and click on centipede-test-two.nlogo</p>
+
+   <H2>MOTIVATION</H2>
+
+   <p>The Centipede game (Rosenthal, 1981) is a canonical game that captures the essence of social dilemmas and is widely used in Game Theory textbooks to illustrate reasoning by backward induction. In this game, there are two players who sequentially decide whether to end their interaction or continue. The original game is shown in the figure below, where player 1's decision nodes are denoted with yellow circles containing number 1, and player 2's decision nodes are coloured in blue. </p>
+
+   <img width="800" style="margin:0px auto;display:block" src="./centipede.png" alt="10-node-centipede" />
+
+   <p>The game starts on the left, with player 1 as the first mover. Whenever a player decides to end the game (red vertical lines in the figure), player 1 obtains the first number in the pair of payoffs and player 2 obtains the latter. For example, if player 1 decides to end the game at the very beginning (so player 2 cannot make any decision), both players get a payoff of 0. If player 1 chooses to continue at the first node, but player 2 ends the game at the second node (i.e. player 2's first opportunity to decide) then player 1 gets -1 and player 2 obtains 3. Note that the decision to continue implies an immediate cost of 1 unit for the decision maker, but a (greater) benefit of 3 units for the other player. If both players choose to continue at every decision node, they both get a payoff of 10, which is the maximum possible payoff for player 1 and the second largest payoff for player 2. </p>
+
+   <p>Like the finitely repeated Prisoner's Dilemma, the Centipede game can be viewed as a stylized representation of relationships in which each participant has repeated opportunities to take costly actions that benefit her partner, and where there is a commonly known date at which the interaction will end. Thus, the Centipede has been used to model a variety of situations, from negotiations in international agreements to joint ventures. In these settings, experimental and anecdotal evidence suggests that cooperative behavior often persists until close to the terminal date (see e.g. McKelvey and Palfrey, 1992). However, when these games are analyzed in Game Theory (imposing common knowledge of rationality), the obtained conclusion is clear-cut regardless of the number of decision nodes: there will be no cooperation at all, i.e. the first player will end the game at the first node. This prediction implies that player 2 gets her minimum possible payoff, and player 1 obtains the second smallest payoff. This discrepancy between the conclusions of Game Theory and observed behavior (and most people's intuition about rationality) is a fundamental puzzle of game theory and an intensely discussed problem in philosophy.</p>
+
+   <p>Our model shows that this apparent paradox disappears when one adopts an evolutionary approach, and assumes that agents test different strategies and adopt the one that gives them the best payoff. Importantly, in our model we maintain the assumption that agents respond optimally to the information they possess. However, rather than imposing strong assumptions about agents' knowledge of opponents' behavior (like in Classical Game Theory), we suppose instead that agents' information comes from direct experience playing the strategies available to them. </p>
+
+   <p>To be precise, following the standard approach in Evolutionary Game Theory, we suppose that the game is recurrently played by two populations of agents, one for each player role, with agents being randomly matched to play the game.
+   </p>
+
+   <img width="1000" style="margin:0px auto;display:block" src="./populations.png" alt="populations" />
+
+   <p> Instead of assuming that players have precise information about aggregate behavior, we assume instead that they base their decisions entirely on their experiences playing the game, choosing the strategy that performed best during the most recent test of alternatives. Here we study the simplest form of this best-experienced-payoff process (Sandholm, Izquierdo and Izquierdo, 2019, 2020): In each period, some agents are selected at random and given the opportunity to switch strategies. Upon such opportunities, each revising agent randomly selects a single alternate strategy. She tests her current strategy and the alternate strategy &kappa; times each by playing them against randomly matched opponents. She then switches to the alternate strategy if the total payoff of the alternate strategy in the test is higher than the total payoff of his original strategy. </p>
+
+   <p>This dynamic model of behaviour leads to conclusions dramatically different from the predictions provided by Classical Game Theory for the Centipede game: for &kappa; = 1 we obtain that there is an almost globally attracting state that exhibits high levels of cooperation. For larger number of trials, we find cycles of mostly cooperative behavior (Izquierdo and Izquierdo, 2020).</p>
+
+   <H2>DESCRIPTION OF THE MODEL</H2>
+
+   <p>This section explains the formal model that <b>centipede-test-two</b> implements. The information provided here should suffice to re-implement the same formal model in any sophisticated enough modelling platform.</p>
+
+   <p>Consider two populations consisting of <i class="slider">n-of-agents-in-each-pop</i> individuals each, who play a Centipede game with <i class="slider">n-of-nodes</i> decision nodes. Individuals from population 1 take the role of player 1, and individuals from the population 2 take the role of player 2.</p>
+
+
+   <p> If the number of decision nodes in Centipede is even, each individual has an associated strategy <span class="math inline">\(i \in \{1,...,\frac{\color{green}{n-of-nodes}}{2}+1\}\)</span>, where strategy <span class="math inline">\(i \leq \frac{\color{green}{n-of-nodes}}{2}\)</span> corresponds to "stop at your <span class="math inline">\(i\)</span>-th decision node, and not before", and strategy <span class="math inline">\(i = \frac{\color{green}{n-of-nodes}}{2}+1\)</span> corresponds to "do not stop". The adaptation to an even number of decision nodes is immediate.</p>
+
+   <p>Let <span class="math inline">\(A_{ij}\)</span> and <span class="math inline">\(B_{ij}\)</span> represent the players' payoffs in population 1 and 2 respectively, when the player in population 1 plays strategy <span class="math inline">\(i\)</span> and the player in population 2 plays strategy <span class="math inline">\(j\)</span>. These payoff matrices <span class="math inline">\((A, B)\)</span> can be expressed concisely as <span class="math display">\[
+            
+            (A_{ij},B_{ij})=
+\begin{cases}
+(2i-2, 2i-2) &amp;\text{if }i\leq j,\\
+(2j-3, 2j+1) &amp;\text{if }j&lt;i.
+\end{cases}\]</span>
+
+   </p>
+
+   <p>Initially, agents are assigned a strategy at random. The model then runs in discrete time-steps called ticks. Within each tick the following sequence of events takes place:</p>
+
+   <ol>
+      <li>Every agent revises her strategy with probability <i class="slider">prob-revision</i>; this probability is the same for every agent and independent between individuals.
+      </li>
+      <li>Each revising agent selects one strategy at random with probability <i class="slider">prob-exp</i> (for experimentation). With probability (1-<i class="slider">prob-exp</i>), the revising agent chooses a (uniformly) random alternate strategy, different from her current one, and plays 2*<i class="slider">n-of-trials</i> Centipede games: <i class="slider">n-of-trials</i> games (trials) using her current strategy and <i class="slider">n-of-trials</i> trials using the alternate one. Each of those <i class="slider">n-of-trials</i> trials is played with a newly picked random partner from the other population, without replacement while testing the same strategy.
+      </li>
+      <li>After all the revising agents have tested their alternate strategies, they simultaneously decide whether they adopt their alternate strategy: if the total payoff obtained by the alternate strategy is greater than the total payoff obtained by their current strategy, they adopt their alternate strategy. Otherwise, they keep their current one.
+      </li>
+   </ol>
+   <p>This sequence of events is repeated iteratively.</p>
+
+   <h2>HOW TO USE IT</h2>
+
+   <img width="700" style="margin:0px auto;display:block" src="./centipede-test-two-interface.png" />
+
+   <h3>Parameters</h3>
+
+   <ul>
+      <li><i class="slider">n-of-nodes</i>: Number of nodes in the Centipede game.</li>
+      <li><i class="slider">n-of-agents-in-each-pop</i>: Number of agents in each population.</li>
+
+      <li><i class="slider">prob-revision</i>: Probability of revision. In each time step, each agent revises her strategy with this probability. The value of this parameter can be changed at runtime, with immediate effect on the run.</li>
+      <li><i class="slider">prob-exp</i>: Probability of experimentation. Probability with which a revising agent adopts a random strategy. The value of this parameter can be changed at runtime, with immediate effect on the run.</li>
+      <li><i class="slider">n-of-trials</i>: Number of trials. This is the number of games that revising agents play with each of the two strategies they test. The value of this parameter can be changed at runtime, with immediate effect on the run.</li>
+   </ul>
+
+   <h3>Buttons</h3>
+
+   <ul>
+      <li><i class="button">setup</i>: Sets the model up, creating two populations with <i class="slider">n-of-agents-in-each-pop</i> agents in each, ready to play the centipede game with <i class="slider">n-of-nodes</i> nodes.</li>
+      <li><i class="button">go once</i>: Pressing this button will run the model one time-step only.</li>
+      <li><i class="button">go</i>: Pressing this button will run the model until this same button is pressed again. </li>
+   </ul>
+
+   <h2>PLOTS</h2>
+
+   <ul>
+      <li><i class="plot">View</i>: This is the black band just below the sliders and the buttons. It shows the expected outcome of the game if it was played by every agent with every agent in the opposite population, as a bubble chart. The numbers indicate the decision node. The last terminal node (i.e. continue until the end of the game) is represented with a triangle. </li>
+      <li><i class="plot">Expected fraction of matches for each game duration (terminal node)</i>: Time series of the expected fraction of matches for each game duration. It shows the same information as the view, but along time and as a bar chart.</li>
+      <li><i class="plot">Pop. 1: Strategy distribution</i>: Time series of the distribution of strategies in population 1.</li>
+      <li><i class="plot">Pop. 2: Strategy distribution</i>: Time series of the distribution of strategies in population 2.</li>
+   </ul>
+
+   <H2>LICENCE</H2>
+   <p><b>centipede-test-two</b> is a model designed to analyse the "Test two, choose the better" rule in the centipede game.
+      <br>Copyright (C) 2020 <a target="_blank" href="http://segis.izqui.org">Segismundo S. Izquierdo</a> &amp; <a target="_blank" href="http://luis.izqui.org">Luis R. Izquierdo</a></p>
+
+   <p>This program is free software; you can redistribute it and/or modify it under the terms of the <a target="_blank" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</p>
+   <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <a target="_blank" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> for more details.</p>
+   <p>You can download a copy of the <a target="_blank" href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> by clicking <a target="_blank" href="./LICENSE">here</a>; you can also get a printed copy writing to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</p>
+   <p>Contact information:
+      <br>Luis R. Izquierdo
+      <br> University of Burgos, Spain.
+      <br> e-mail: <a href="mailto:lrizquierdo@ubu.es">lrizquierdo@ubu.es</a>
+   </p>
+
+
+   <H2>MODELLERS</H2>
+   <p>This program has been designed and implemented by <a target="_blank" href="http://segis.izqui.org">Segismundo S. Izquierdo</a> &amp; <a target="_blank" href="http://luis.izqui.org">Luis R. Izquierdo</a>.</p>
+
+   <H2>REFERENCES</H2>
+
+   <p>Izquierdo, S. S., and Izquierdo, L. R. (2020). "Test two, choose the better" leads to high cooperation in the Centipede game. <em>Working paper</em>.</p>
+
+   <p>McKelvey RD, Palfrey TR (1992) An Experimental Study of the Centipede Game. <em>Econometrica</em> 60(4):803-836. <a href="http://dx.doi.org/10.2307/2951567">http://dx.doi.org/10.2307/2951567</a></p>
+
+   <p>Rosenthal, R. W. (1981) Games of perfect information, predatory pricing and the chain-store paradox. <em>Journal of Economic Theory</em> 25(1):92-100.<a href="https://doi.org/10.1016/0022-0531(81)90018-1">https://doi.org/10.1016/0022-0531(81)90018-1</a></p>
+
+   <p>Sandholm, W. H., Izquierdo, S. S., and Izquierdo, L. R. (2019). Best experienced payoff dynamics and cooperation in the Centipede game. <em>Theoretical Economics</em>, 14: 1347-1385. <a href="https://doi.org/10.3982/TE3565">https://doi.org/10.3982/TE3565</a></p>
+
+   <p>Sandholm, W. H., Izquierdo, S. S., and Izquierdo, L. R. (2020). Stability for best experienced payoff dynamics. <em>Journal of Economic Theory</em>, 185:104957. <a href="https://doi.org/10.1016/j.jet.2019.104957">https://doi.org/10.1016/j.jet.2019.104957</a></p>
+
+   <hr>
+
+</body>
+
+</html>
