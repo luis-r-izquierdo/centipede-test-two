@@ -1,19 +1,19 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 
-<HEAD>
+<head>
 
    <TITLE>Centipede, test two</TITLE>
 
-   <META http-equiv=Content-Type content="text/html; charset=windows-1252">
+   <META http-equiv=Content-Type content="text/html; charset=windows-1252"></META>
 
-   <META name=keywords content="Centipede, test two, best experienced payoff, cooperation, evolutionary, game theory, netLogo, agent-based modelling">
+   <META name=keywords content="Centipede, test two, best experienced payoff, cooperation, evolutionary, game theory, netLogo, agent-based modelling"></META>
 
-   <META name=Description content="centipede-test-two is a model designed to analyse the " Test two, choose the better " rule in the centipede game.">
+   <META name=Description content="centipede-test-two is a model designed to analyse the 'Test two, choose the better' rule in the centipede game."></META>
 
-   <META name=Authors content="Segismundo S. Izquierdo, Luis R. Izquierdo">
+   <META name=Authors content="Segismundo S. Izquierdo, Luis R. Izquierdo"></META>
 
-   <STYLE type="text/css">
+   <style type="text/css">
       H1 {
          BACKGROUND-COLOR: #111199;
          color: #ffffff;
@@ -141,7 +141,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 
-</HEAD>
+</head>
 
 <body>
 
@@ -201,9 +201,13 @@
    <ol>
       <li>Every agent revises her strategy with probability <i class="slider">prob-revision</i>; this probability is the same for every agent and independent between agents.
       </li>
-      <li>Each revising agent selects one strategy at random with probability <i class="slider">prob-exp</i> (for experimentation). With probability (1-<i class="slider">prob-exp</i>), the revising agent chooses a (uniformly) random alternate strategy, different from her current one, and plays 2*<i class="slider">n-of-trials</i> Centipede games: <i class="slider">n-of-trials</i> games (trials) using her current strategy and <i class="slider">n-of-trials</i> trials using the alternate one. Each of those <i class="slider">n-of-trials</i> trials is played with a newly picked random partner from the other population, without replacement while testing the same strategy.
+      <li>Revising agents independently select their next strategy as follows:
+         <ol type="a">
+            <li>Each revising agent selects one strategy at random with probability <i class="slider">prob-exp</i> (for experimentation) as their next strategy. </li>
+            <li>With probability (1-<i class="slider">prob-exp</i>), the revising agent chooses a random alternate strategy, different from her current one, and plays 2*<i class="slider">n-of-trials</i> Centipede games: <i class="slider">n-of-trials</i> games (trials) using her current strategy and <i class="slider">n-of-trials</i> trials using the alternate one. Each of those <i class="slider">n-of-trials</i> trials is played with a newly picked random partner from the other population, without replacement while testing the same strategy. If the total payoff obtained by the alternate strategy is greater than the total payoff obtained by her current strategy, the agent selects the alternate strategy as her next strategy. Otherwise, she keeps her current one.</li>
+         </ol>
       </li>
-      <li>After all the revising agents have tested their alternate strategies, they simultaneously decide whether they adopt their alternate strategy: if the total payoff obtained by the alternate strategy is greater than the total payoff obtained by their current strategy, they adopt their alternate strategy. Otherwise, they keep their current one.
+      <li>After all the revising agents have chosen their next strategy, they simultaneously adopt it.
       </li>
    </ol>
    <p>This sequence of events is repeated iteratively.</p>
