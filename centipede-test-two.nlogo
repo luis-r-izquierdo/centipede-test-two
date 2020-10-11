@@ -204,7 +204,7 @@ to update-next-strategy
     let another-strategy one-of (remove strategy my-pop-strategy-numbers)
     let payoff-another-strategy payoff-for-strategy another-strategy
 
-    set next-strategy ifelse-value payoff-another-strategy > payoff-my-current-strategy
+    set next-strategy ifelse-value (payoff-another-strategy > payoff-my-current-strategy)
       [ another-strategy ]
       [ strategy ]
   ]
